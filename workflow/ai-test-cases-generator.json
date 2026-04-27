@@ -4,8 +4,8 @@
     {
       "parameters": {
         "content": "## AI powered Test Case Generator\n\nGenerates professional test cases from Jira tickets and exports as Excel (.xlsx) with two tabs:\n- Test Cases: Complete test case details\n- Execution Tracker: Ready for test execution tracking",
-        "height": 536,
-        "width": 1952,
+        "height": 568,
+        "width": 2704,
         "color": 2
       },
       "id": "bf207b08-e1ae-4f0f-b2f3-d5b1e2a89133",
@@ -13,14 +13,14 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -128,
+        -512,
         192
       ]
     },
     {
       "parameters": {
         "resource": "spreadsheet",
-        "title": "={{ $('Ingest User Input').first().json['Jira Ticket ID'] }} Test Cases Report",
+        "title": "={{ $if($('Ingest User Input').item.json['Ticket System'] === 'Jira', \n  $('Jira info').item.json['Jira Ticket ID'] + ' Test Cases Report', \n  $('GitHub info').item.json['GitHub Repository URL'].replace('https://github.com/', '') + ' #' + $('GitHub info').item.json['Issue Number'] + ' Test Cases Report') \n}}",
         "sheetsUi": {
           "sheetValues": [
             {
@@ -50,7 +50,7 @@
     },
     {
       "parameters": {
-        "modelName": "models/gemini-2.5-pro",
+        "modelName": "models/gemini-2.5-flash-lite",
         "options": {
           "maxOutputTokens": 100000,
           "temperature": 0.3
@@ -66,15 +66,15 @@
       ],
       "credentials": {
         "googlePalmApi": {
-          "id": "1iHLpdzBEOwWC6Dg",
-          "name": "Google Gemini(PaLM) Api account 2"
+          "id": "3ZUrB5Pf6RGRueSb",
+          "name": "Google Gemini(PaLM) Api account 3"
         }
       }
     },
     {
       "parameters": {
         "content": "## Data Transformation",
-        "height": 200,
+        "height": 360,
         "width": 464,
         "color": 4
       },
@@ -90,8 +90,8 @@
     {
       "parameters": {
         "content": "## Data Load ",
-        "height": 344,
-        "width": 608,
+        "height": 360,
+        "width": 816,
         "color": 6
       },
       "id": "f111e2ae-4ccf-4d45-9863-2be2d62cea1e",
@@ -106,8 +106,8 @@
     {
       "parameters": {
         "content": "## Data Extract",
-        "height": 200,
-        "width": 416,
+        "height": 360,
+        "width": 624,
         "color": 3
       },
       "id": "b636f031-f955-48c8-9bc3-a966c29d1d16",
@@ -115,14 +115,14 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -112,
+        -320,
         352
       ]
     },
     {
       "parameters": {
         "content": "## Data Generation",
-        "height": 344,
+        "height": 360,
         "width": 304,
         "color": "#C9E3E4"
       },
@@ -497,7 +497,7 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        960,
+        928,
         400
       ],
       "id": "ed19a0df-85e6-4798-9759-d548dd5351f2",
@@ -519,9 +519,9 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "=You are a senior QA engineer.\n\nTICKET ID: {{ $json.key }}\nSUMMARY: {{ $json.Summary }}\nDESCRIPTION: {{ $json.Description }}\nPRIORITY: {{ $json.Priority.name }}\nACCEPTANCE CRITERIA: {{ $json['Sub-tasks'][0].fields.summary || 'Not provided - infer from description' }}\n\nDEPTH RULES based on priority:\n- High priority: generate 20 test cases, include extensive edge cases and boundary conditions\n- Medium priority: generate 15 test cases, standard coverage\n- Low priority: generate 10 test cases, happy path and key negative cases only\n\nFEATURE TYPE DETECTION — read the summary and description, then apply the matching template:\n- If UI/frontend feature: focus on visual behavior, form validation, navigation, error messages, empty states\n- If API/backend feature: focus on status codes, request/response payloads, authentication, invalid inputs, rate limits\n- If mobile feature: add touch interactions, screen orientation, offline mode, push notifications\n- If accessibility feature: add screen reader behavior, keyboard navigation, color contrast, focus management\n- If mixed: combine relevant cases from each type\n\nMODULE DETECTION — infer the module from the summary if not explicitly stated.\n\nIf Acceptance Criteria is missing, generate test cases based on the description and note your assumptions in the preconditions field.\n\nReturn ONLY a raw JSON array. Nothing before [. Nothing after ].\nEach object must have exactly: id, title, module, suite, preconditions, steps, expected_result, test_data, test_type, priority, status",
+        "text": "=TICKET ID: {{ $json.key || $json.number }}\nSUMMARY: {{ $json.summary || $json.title }}\nDESCRIPTION: {{ $json.description || $json.body || 'Not provided - infer from summary' }}\nPRIORITY: {{ $json.priority?.name || $json.labels?.[0]?.name || 'Medium' }}\nACCEPTANCE CRITERIA: {{ $json['Sub-tasks']?.[0]?.fields?.summary || $json.body || 'Infer from description' }}\n\nDEPTH RULES:\n- High: 20 test cases, extensive edge cases and boundary conditions\n- Medium: 15 test cases, standard coverage\n- Low: 10 test cases, happy path and key negatives\n- Unknown priority: default to Medium rules\n\nFEATURE TYPE — auto detect from summary and description:\n- UI feature: form validation, navigation, error messages, empty states\n- API feature: status codes, payloads, authentication, invalid inputs\n- Mobile feature: touch, orientation, offline mode, notifications\n- Accessibility: screen reader, keyboard nav, contrast, focus\n- Mixed: combine all relevant types\n\nMODULE — infer from summary if not explicitly stated.\nIf Acceptance Criteria is missing, infer from description \nand note assumptions in preconditions.\n\nReturn ONLY a raw JSON array. Nothing before. Nothing after.\nEach object must have exactly these fields:\nid, title, module, suite, preconditions, steps, \nexpected_result, test_data, test_type, priority, status",
         "options": {
-          "systemMessage": "Never use markdown links like [text](url) in any field. \nWrite plain text only. Use a period to end a sentence, \nthen start the next sentence normally."
+          "systemMessage": "You are a senior QA engineer with expertise in manual and \nautomated testing. You write clear, structured test cases \nfor any type of software feature. Never use markdown links. \nWrite plain text only. Return only raw JSON with no text \nbefore or after the array."
         }
       },
       "id": "5b39e133-f43c-42c2-8d8c-504999c9330c",
@@ -536,7 +536,7 @@
     {
       "parameters": {
         "operation": "get",
-        "issueKey": "={{ $('Ingest User Input').first().json['Jira Ticket ID'] }}",
+        "issueKey": "={{ $('Ingest User ').first().json['Jira Ticket ID'] }}",
         "simplifyOutput": true,
         "additionalFields": {}
       },
@@ -557,8 +557,251 @@
     },
     {
       "parameters": {
+        "authentication": "oAuth2",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "={{ $('GitHub info').item.json['GitHub Repository URL'].split('/')[3] }}",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "mode": "name",
+          "value": "={{ $('GitHub info').item.json['GitHub Repository URL'].split('/')[4] }}"
+        },
+        "issueNumber": "={{ $json[\"Issue Number\"] }}"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        128,
+        560
+      ],
+      "id": "1ac9a5d6-dde7-4e13-b334-091a6787b69a",
+      "name": "Get an issue",
+      "webhookId": "62f26b48-a787-4da7-b706-6560121e64ad",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "icmHsh5VxN4jkDFW",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "issueComment",
+        "issueKey": "={{ $('Jira info').item.json['Jira Ticket ID'] }}",
+        "comment": "=✅ Test cases generated: {{ $('Create spreadsheet').item.json.spreadsheetUrl }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.jira",
+      "typeVersion": 1,
+      "position": [
+        2032,
+        384
+      ],
+      "id": "ff66db65-f1ba-4099-8466-6742f6cf5697",
+      "name": "Extract Jira Ticket1",
+      "executeOnce": true,
+      "credentials": {
+        "jiraSoftwareCloudApi": {
+          "id": "BYSfJpbfEBnvpDus",
+          "name": "Jira SW Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "operation": "createComment",
+        "owner": {
+          "__rl": true,
+          "mode": "name",
+          "value": "={{ $('GitHub info').item.json['GitHub Repository URL'].split('/')[3] }}"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "={{ $('GitHub info').item.json['GitHub Repository URL'].split('/')[4] }}",
+          "mode": "name"
+        },
+        "issueNumber": "={{ $('GitHub info').item.json['Issue Number'] }}",
+        "body": "=✅ Test cases generated: {{ $('Create spreadsheet').item.json.spreadsheetUrl }}"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        2048,
+        544
+      ],
+      "id": "7bd37dd9-e2c6-46bd-b1a6-84bd3b8f648e",
+      "name": "Create a comment on an issue",
+      "webhookId": "6fc89bc0-83ca-43b5-afa7-83cc377ecd39",
+      "executeOnce": true,
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "icmHsh5VxN4jkDFW",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $if($('Get an issue').isExecuted, \"github\", \"jira\") }}",
+                    "rightValue": "jira",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "a28e26e3-c760-493f-b884-b030c158939d"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "08af65be-60c4-4d34-9e47-ddac0a9dc9f0",
+                    "leftValue": "={{ $if($('Get an issue').isExecuted, \"github\", \"jira\") }}",
+                    "rightValue": "github",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        1840,
+        480
+      ],
+      "id": "257351bd-bed2-4370-a001-5342bca39ce9",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json['Ticket System'] }}",
+                    "rightValue": "Jira",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "a28e26e3-c760-493f-b884-b030c158939d"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "08af65be-60c4-4d34-9e47-ddac0a9dc9f0",
+                    "leftValue": "={{ $json['Ticket System'] }}",
+                    "rightValue": "Github Issue",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -288,
+        480
+      ],
+      "id": "1d01c933-5ab2-4c7d-ae58-837c09c13dd0",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
         "formTitle": "Generate QA Test Cases",
         "formDescription": "Enter a Jira ticket ID to automatically generate test cases and export to Google Sheets",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Ticket System",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Jira"
+                  },
+                  {
+                    "option": "Github Issue"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
+      "position": [
+        -480,
+        480
+      ],
+      "id": "428b459c-219a-41d5-8836-8c5a62463213",
+      "name": "Ingest User Input",
+      "webhookId": "09db5a5e-6697-4d65-ba51-1f7c6c6dc4eb"
+    },
+    {
+      "parameters": {
         "formFields": {
           "values": [
             {
@@ -568,15 +811,39 @@
         },
         "options": {}
       },
-      "type": "n8n-nodes-base.formTrigger",
+      "type": "n8n-nodes-base.form",
       "typeVersion": 2.5,
       "position": [
         -48,
         400
       ],
-      "id": "505c90e8-e60f-48a6-a4b1-e273cefa68c2",
-      "name": "Ingest User Input",
-      "webhookId": "6ef5848d-9402-41a0-a171-bb3080092e49"
+      "id": "e787d148-e242-40a4-8524-91218bdb5790",
+      "name": "Jira info",
+      "webhookId": "2c8c2e81-82f2-4673-8a8d-ac3b87cb6060"
+    },
+    {
+      "parameters": {
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "GitHub Repository URL"
+            },
+            {
+              "fieldLabel": "Issue Number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 2.5,
+      "position": [
+        -48,
+        560
+      ],
+      "id": "e2c9dccd-e43c-4dbd-ba90-713ed44c2122",
+      "name": "GitHub info",
+      "webhookId": "2c8c2e81-82f2-4673-8a8d-ac3b87cb6060"
     }
   ],
   "pinData": {},
@@ -605,7 +872,13 @@
     },
     "Load Excecution Tracker Tab": {
       "main": [
-        []
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Map Execution Tracker Schema": {
@@ -685,11 +958,80 @@
         ]
       ]
     },
+    "Get an issue": {
+      "main": [
+        [
+          {
+            "node": "AI Test Generation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Extract Jira Ticket1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create a comment on an issue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Jira info",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "GitHub info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "Ingest User Input": {
       "main": [
         [
           {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Jira info": {
+      "main": [
+        [
+          {
             "node": "Extract Jira Ticket",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub info": {
+      "main": [
+        [
+          {
+            "node": "Get an issue",
             "type": "main",
             "index": 0
           }
@@ -703,7 +1045,7 @@
     "binaryMode": "separate",
     "availableInMCP": false
   },
-  "versionId": "b4377adf-19c6-4bf9-b74a-a1bcc87d88a1",
+  "versionId": "96bc0f95-4f8d-4c4f-87bd-51a6866a573e",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "b9b15d522f8cea650bef8a4731a1f1f211e2f3f9224638b21cd3ebd266db278f"

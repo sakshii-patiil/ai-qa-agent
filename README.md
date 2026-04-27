@@ -1,6 +1,6 @@
 # AI Agent — Automated QA Test Case Generator
 
-An AI agent that autonomously reads a Jira ticket, reasons over the requirements, and generates a complete structured test suite — exported to Google Sheets in under a minute.
+An AI agent that autonomously reads a Jira or GitHub issue, reasons over the requirements, generates a complete structured test suite, exports it to Google Sheets, and posts the results as a comment back on the original ticket — all in under a minute.
 
 No manual test case writing. Just submit a ticket ID.
 
@@ -15,30 +15,32 @@ Built with n8n, Google Gemini, and Google Sheets.
 
 This is an AI agent — it doesn't just respond to prompts, it acts autonomously:
 
-1. **Ingests** a Jira ticket ID from a form submission
-2. **Fetches** the ticket from Jira — summary, description, acceptance criteria
+1. **Ingests** a Jira ticket ID or GitHub issue number from a form submission
+2. **Fetches** the issue — summary, description, acceptance criteria (from Jira or GitHub)
 3. **Reasons** over the requirements using Google Gemini — detects feature type, infers module, adjusts depth based on priority
 4. **Generates** a structured test suite with no human input
 5. **Writes** results to Google Sheets — two tabs ready for immediate use
+6. **Posts** the test suite as a comment directly on the original Jira ticket or GitHub issue
 
-The agent runs the full pipeline end-to-end. You submit a ticket ID. You get a test suite.
+The agent runs the full pipeline end-to-end. You submit a ticket ID. You get a test suite — and the ticket gets updated automatically.
 
 ---
 
 ## Pipeline Architecture
 
 ```
-Ingest          Extract            Generate           Transform                    Load
-─────────────────────────────────────────────────────────────────────────────────────────
-User Input  →  Jira Ticket  →  AI Test Generation  →  Parse + Aggregate + Map  →  Google Sheets
-(Form)         (Jira API)      (Google Gemini)         (Clean + Format)            (2 tabs)
+Ingest          Extract                  Generate           Transform                    Load                        Post Back
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+User Input  →  Jira or GitHub  →  AI Test Generation  →  Parse + Aggregate + Map  →  Google Sheets  →  Comment on ticket
+(Form)         (API)              (Google Gemini)         (Clean + Format)            (2 tabs)           (Jira or GitHub)
 ```
 
 **Pipeline stages:**
-- **Data Extract** — fetches raw ticket data from Jira
-- **Data Generation** — AI enriches the data into structured test cases
+- **Data Extract** — routes to Jira or GitHub based on input, fetches raw ticket/issue data
+- **Data Generation** — AI enriches the data into structured test cases via Google Gemini
 - **Data Transformation** — cleans, parses, and maps the AI output
 - **Data Load** — writes to Google Sheets (Test Cases + Execution Tracker tabs)
+- **Post Back** — adds a comment on the original Jira ticket or GitHub issue with the generated test suite
 
 ---
 
@@ -66,7 +68,8 @@ Feature type is auto-detected from the ticket:
 |---|---|
 | [n8n](https://n8n.io) | Workflow automation |
 | [Google Gemini](https://ai.google.dev) | AI test case generation |
-| [Jira Cloud](https://www.atlassian.com/software/jira) | Ticket source |
+| [Jira Cloud](https://www.atlassian.com/software/jira) | Ticket source (Jira) |
+| [GitHub](https://github.com) | Ticket source (GitHub Issues) |
 | [Google Sheets](https://sheets.google.com) | Output destination |
 
 ---
@@ -74,7 +77,8 @@ Feature type is auto-detected from the ticket:
 ## Prerequisites
 
 - n8n instance (cloud or self-hosted)
-- Jira Cloud account + API token
+- Jira Cloud account + API token (for Jira input)
+- GitHub account + personal access token (for GitHub Issues input)
 - Google account with Sheets access (OAuth2)
 - Google Gemini API key
 
@@ -88,6 +92,7 @@ Feature type is auto-detected from the ticket:
 
 2. **Set up credentials**
    - `Jira SW Cloud` — add your Jira domain, email, and API token
+   - `GitHub` — add your personal access token
    - `Google Sheets OAuth2` — connect your Google account
    - `Google Gemini` — add your Gemini API key
 
@@ -126,7 +131,7 @@ All test case fields plus:
 
 ## Roadmap
 
-- [ ] GitHub Issues support
+- [x] GitHub Issues support
 - [ ] Azure DevOps support
 - [ ] Linear support
 - [ ] TestRail output
