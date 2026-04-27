@@ -1,0 +1,713 @@
+{
+  "name": "QA Management Tool Suite",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## AI powered Test Case Generator\n\nGenerates professional test cases from Jira tickets and exports as Excel (.xlsx) with two tabs:\n- Test Cases: Complete test case details\n- Execution Tracker: Ready for test execution tracking",
+        "height": 536,
+        "width": 1952,
+        "color": 2
+      },
+      "id": "bf207b08-e1ae-4f0f-b2f3-d5b1e2a89133",
+      "name": "Sticky Note 9a6900ac",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -128,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "spreadsheet",
+        "title": "={{ $('Ingest User Input').first().json['Jira Ticket ID'] }} Test Cases Report",
+        "sheetsUi": {
+          "sheetValues": [
+            {
+              "title": "=Test Cases"
+            },
+            {
+              "title": "Execution Tracker"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1200,
+        400
+      ],
+      "id": "23f691e3-ef25-42af-a6b5-c28ffae673ac",
+      "name": "Create spreadsheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "pC76BF7hWyRmoyMt",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {
+          "maxOutputTokens": 100000,
+          "temperature": 0.3
+        }
+      },
+      "id": "ee1d3dda-0ff0-4efc-a8c5-086c7774e51c",
+      "name": "Google Gemini",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        384,
+        576
+      ],
+      "credentials": {
+        "googlePalmApi": {
+          "id": "1iHLpdzBEOwWC6Dg",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Data Transformation",
+        "height": 200,
+        "width": 464,
+        "color": 4
+      },
+      "id": "d0976786-25bb-49f8-97d9-0e4387e73a7b",
+      "name": "Sticky Note 9a6900ac1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        672,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Data Load ",
+        "height": 344,
+        "width": 608,
+        "color": 6
+      },
+      "id": "f111e2ae-4ccf-4d45-9863-2be2d62cea1e",
+      "name": "Sticky Note 9a6900ac2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1168,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Data Extract",
+        "height": 200,
+        "width": 416,
+        "color": 3
+      },
+      "id": "b636f031-f955-48c8-9bc3-a966c29d1d16",
+      "name": "Sticky Note 9a6900ac3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -112,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Data Generation",
+        "height": 344,
+        "width": 304,
+        "color": "#C9E3E4"
+      },
+      "id": "b4fbca06-1a35-4f06-9912-a49b81883a26",
+      "name": "Sticky Note 9a6900ac4",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        336,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $('Create spreadsheet').first().json.spreadsheetId }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Execution Tracker",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Test Case ID",
+              "displayName": "Test Case ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Module",
+              "displayName": "Module",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Suite",
+              "displayName": "Suite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Preconditions",
+              "displayName": "Preconditions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Test Steps",
+              "displayName": "Test Steps",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Expected Result",
+              "displayName": "Expected Result",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Test Data",
+              "displayName": "Test Data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Test Type",
+              "displayName": "Test Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Priority",
+              "displayName": "Priority",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Run Date",
+              "displayName": "Run Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Actual Result",
+              "displayName": "Actual Result",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Execution Status",
+              "displayName": "Execution Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1648,
+        400
+      ],
+      "id": "47d7f279-4059-4a02-9359-01f714a0a7d3",
+      "name": "Load Excecution Tracker Tab",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "pC76BF7hWyRmoyMt",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all().map(item => ({\n  json: {\n    'Test Case ID':    item.json['Test Case ID'],\n    'Title':           item.json['Title'],\n    'Module':          item.json['Module'],\n    'Suite':           item.json['Suite'],\n    'Preconditions':   item.json['Preconditions'],\n    'Test Steps':      item.json['Test Steps'],\n    'Expected Result': item.json['Expected Result'],\n    'Test Data':       item.json['Test Data'],\n    'Test Type':       item.json['Test Type'],\n    'Priority':        item.json['Priority'],\n    'Status':          item.json['Status'],\n    'Run Date':        '',\n    'Actual Result':   '',\n    'Execution Status': 'Not Run'\n  }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1536,
+        544
+      ],
+      "id": "88f70e2d-ab78-4e88-b8a4-c5889d5bee4d",
+      "name": "Map Execution Tracker Schema"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $('Create spreadsheet').first().json.spreadsheetId }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Test Cases",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Test Case ID",
+              "displayName": "Test Case ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Module",
+              "displayName": "Module",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Suite",
+              "displayName": "Suite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Preconditions",
+              "displayName": "Preconditions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Test Steps",
+              "displayName": "Test Steps",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Expected Result",
+              "displayName": "Expected Result",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Test Data",
+              "displayName": "Test Data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Test Type",
+              "displayName": "Test Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Priority",
+              "displayName": "Priority",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1424,
+        400
+      ],
+      "id": "26876784-9317-42c0-9de5-8603ba2fbf8b",
+      "name": "Load Test Cases Tab",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "pC76BF7hWyRmoyMt",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $('Parse Clean AI Output').all();\n\nreturn items.map(i => ({\n  json: {\n    'Test Case ID':    i.json.id,\n    'Title':           i.json.title,\n    'Module':          i.json.module,\n    'Suite':           i.json.suite,\n    'Preconditions':   i.json.preconditions,\n    'Test Steps':      i.json.steps,\n    'Expected Result': i.json.expected_result,\n    'Test Data':       i.json.test_data,\n    'Test Type':       i.json.test_type,\n    'Priority':        i.json.priority,\n    'Status':          i.json.status\n  }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1312,
+        544
+      ],
+      "id": "537f13cd-4bc0-4cb9-bec5-7f2ecb7583f1",
+      "name": "Map Test Cases Schema"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        960,
+        400
+      ],
+      "id": "ed19a0df-85e6-4798-9759-d548dd5351f2",
+      "name": "Aggregate Consolidate Items"
+    },
+    {
+      "parameters": {
+        "jsCode": "const rawData = $input.first().json.output || $input.first().json.text || $input.first().json.message || $input.first().json;\n\nif (typeof rawData === 'object' && rawData.testCases && Array.isArray(rawData.testCases)) {\n  return rawData.testCases.map(tc => ({ json: tc }));\n}\n\nconst raw = typeof rawData === 'string' ? rawData : JSON.stringify(rawData);\n\nfunction sanitize(s) {\n  const map = {'\\n':'\\\\n', '\\r':'\\\\r', '\\t':'\\\\t'};\n  let out = '', inStr = false, esc = false;\n  for (const ch of s) {\n    if (esc) { out += ch; esc = false; continue; }\n    if (ch === '\\\\' && inStr) { out += ch; esc = true; continue; }\n    if (ch === '\"') { inStr = !inStr; out += ch; continue; }\n    out += (inStr && map[ch]) ? map[ch] : ch;\n  }\n  return out;\n}\n\nfunction extractArray(raw) {\n  let cleaned = raw.replace(/```json\\s*/g, '').replace(/```/g, '').trim();\n  const start = cleaned.indexOf('[');\n  if (start !== -1) {\n    let depth = 0;\n    for (let i = start; i < cleaned.length; i++) {\n      if (cleaned[i] === '[') depth++;\n      else if (cleaned[i] === ']') {\n        depth--;\n        if (depth === 0) {\n          const c = cleaned.slice(start, i + 1);\n          try { return JSON.parse(c); } catch(e) {}\n          try { return JSON.parse(sanitize(c)); } catch(e) { break; }\n        }\n      }\n    }\n  }\n  const matches = (cleaned.match(/\\[[\\s\\S]*\\]/g) || []).sort((a, b) => b.length - a.length);\n  for (const m of matches) {\n    try { return JSON.parse(m); } catch(e) {}\n    try { return JSON.parse(sanitize(m)); } catch(e) {}\n  }\n  throw new Error('Could not extract test cases. Raw: ' + raw.slice(0, 200));\n}\n\nconst testCases = extractArray(raw);\n\nconst clean = testCases.map(tc => {\n  const fixed = {};\n  for (const [k, v] of Object.entries(tc)) {\n    if (typeof v === 'string') {\n      fixed[k] = v\n        .replace(/\\[([^\\]]+)\\]\\([^)]+\\)/g, '$1')  // strip [text](url)\n        .replace(/\\[([^\\]]+)\\]\\([^)]+\\)/g, '$1');  // second pass for nested\n    } else if (typeof v === 'object' && v !== null) {\n      // Convert objects (like test_data) to a readable string for Google Sheets\n      fixed[k] = Object.entries(v).map(([key, val]) => `${key}: ${val}`).join(', ');\n    } else {\n      fixed[k] = v;\n    }\n  }\n  return fixed;\n});\n\nreturn clean.map(tc => ({ json: tc }));"
+      },
+      "id": "b873209e-a7b7-4764-80a2-c104e2e3f479",
+      "name": "Parse Clean AI Output",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        736,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a senior QA engineer.\n\nTICKET ID: {{ $json.key }}\nSUMMARY: {{ $json.Summary }}\nDESCRIPTION: {{ $json.Description }}\nPRIORITY: {{ $json.Priority.name }}\nACCEPTANCE CRITERIA: {{ $json['Sub-tasks'][0].fields.summary || 'Not provided - infer from description' }}\n\nDEPTH RULES based on priority:\n- High priority: generate 20 test cases, include extensive edge cases and boundary conditions\n- Medium priority: generate 15 test cases, standard coverage\n- Low priority: generate 10 test cases, happy path and key negative cases only\n\nFEATURE TYPE DETECTION — read the summary and description, then apply the matching template:\n- If UI/frontend feature: focus on visual behavior, form validation, navigation, error messages, empty states\n- If API/backend feature: focus on status codes, request/response payloads, authentication, invalid inputs, rate limits\n- If mobile feature: add touch interactions, screen orientation, offline mode, push notifications\n- If accessibility feature: add screen reader behavior, keyboard navigation, color contrast, focus management\n- If mixed: combine relevant cases from each type\n\nMODULE DETECTION — infer the module from the summary if not explicitly stated.\n\nIf Acceptance Criteria is missing, generate test cases based on the description and note your assumptions in the preconditions field.\n\nReturn ONLY a raw JSON array. Nothing before [. Nothing after ].\nEach object must have exactly: id, title, module, suite, preconditions, steps, expected_result, test_data, test_type, priority, status",
+        "options": {
+          "systemMessage": "Never use markdown links like [text](url) in any field. \nWrite plain text only. Use a period to end a sentence, \nthen start the next sentence normally."
+        }
+      },
+      "id": "5b39e133-f43c-42c2-8d8c-504999c9330c",
+      "name": "AI Test Generation",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        384,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "issueKey": "={{ $('Ingest User Input').first().json['Jira Ticket ID'] }}",
+        "simplifyOutput": true,
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.jira",
+      "typeVersion": 1,
+      "position": [
+        128,
+        400
+      ],
+      "id": "322072bf-c179-4e46-ab1a-ddc9277fef19",
+      "name": "Extract Jira Ticket",
+      "credentials": {
+        "jiraSoftwareCloudApi": {
+          "id": "BYSfJpbfEBnvpDus",
+          "name": "Jira SW Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "formTitle": "Generate QA Test Cases",
+        "formDescription": "Enter a Jira ticket ID to automatically generate test cases and export to Google Sheets",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Jira Ticket ID"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
+      "position": [
+        -48,
+        400
+      ],
+      "id": "505c90e8-e60f-48a6-a4b1-e273cefa68c2",
+      "name": "Ingest User Input",
+      "webhookId": "6ef5848d-9402-41a0-a171-bb3080092e49"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Create spreadsheet": {
+      "main": [
+        [
+          {
+            "node": "Map Test Cases Schema",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Test Generation",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load Excecution Tracker Tab": {
+      "main": [
+        []
+      ]
+    },
+    "Map Execution Tracker Schema": {
+      "main": [
+        [
+          {
+            "node": "Load Excecution Tracker Tab",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load Test Cases Tab": {
+      "main": [
+        [
+          {
+            "node": "Map Execution Tracker Schema",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map Test Cases Schema": {
+      "main": [
+        [
+          {
+            "node": "Load Test Cases Tab",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate Consolidate Items": {
+      "main": [
+        [
+          {
+            "node": "Create spreadsheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Clean AI Output": {
+      "main": [
+        [
+          {
+            "node": "Aggregate Consolidate Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Test Generation": {
+      "main": [
+        [
+          {
+            "node": "Parse Clean AI Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Jira Ticket": {
+      "main": [
+        [
+          {
+            "node": "AI Test Generation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ingest User Input": {
+      "main": [
+        [
+          {
+            "node": "Extract Jira Ticket",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "b4377adf-19c6-4bf9-b74a-a1bcc87d88a1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b9b15d522f8cea650bef8a4731a1f1f211e2f3f9224638b21cd3ebd266db278f"
+  },
+  "id": "nKhi2UPORsFBjIOv",
+  "tags": []
+}
