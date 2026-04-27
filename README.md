@@ -84,7 +84,7 @@ Feature type is auto-detected from the ticket:
 
 1. **Import the workflow**
    - In n8n, go to Workflows → Import
-   - Upload `QA Management Tool Suite.json`
+   - Upload `ai-test-cases-generator.json`
 
 2. **Set up credentials**
    - `Jira SW Cloud` — add your Jira domain, email, and API token
