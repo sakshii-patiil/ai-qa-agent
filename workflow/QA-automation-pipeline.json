@@ -1,0 +1,1285 @@
+{
+  "name": "AI-testcode-writter",
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "spreadsheet",
+        "title": "={{ $if($('Ingest User Input').item.json['Ticket System'] === 'Jira', \n  $('Jira info1').item.json['Jira Ticket ID'] + ' Test Cases Report', \n  $('GitHub info').item.json['GitHub Repository URL'].replace('https://github.com/', '') + ' #' + $('GitHub info').item.json['Issue Number'] + ' Test Cases Report') \n}}",
+        "sheetsUi": {
+          "sheetValues": [
+            {
+              "title": "=Test Cases"
+            },
+            {
+              "title": "Execution Tracker"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2672,
+        112
+      ],
+      "id": "d928c2bd-ba26-437b-a1c5-6b2c738c99bd",
+      "name": "Create spreadsheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "pC76BF7hWyRmoyMt",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Data Transformation",
+        "height": 376,
+        "width": 480,
+        "color": 4
+      },
+      "id": "7238563a-41b1-4213-b4c3-114ac482c135",
+      "name": "Sticky Note 9a6900ac1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2144,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Data Load ",
+        "height": 376,
+        "width": 672,
+        "color": 6
+      },
+      "id": "8e5426e3-70db-4d7a-a047-7eb0d9d36dab",
+      "name": "Sticky Note 9a6900ac2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2640,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Data Extract",
+        "height": 376,
+        "width": 640,
+        "color": 3
+      },
+      "id": "01356445-a24e-492b-97da-81057e5dea7b",
+      "name": "Sticky Note 9a6900ac3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1168,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Data Generation",
+        "height": 376,
+        "width": 304,
+        "color": "#C9E3E4"
+      },
+      "id": "420df4f1-8082-4054-a92c-14eb849f10e5",
+      "name": "Sticky Note 9a6900ac4",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1824,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $('Create spreadsheet').first().json.spreadsheetId }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Execution Tracker",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Test Case ID",
+              "displayName": "Test Case ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Module",
+              "displayName": "Module",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Suite",
+              "displayName": "Suite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Preconditions",
+              "displayName": "Preconditions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Test Steps",
+              "displayName": "Test Steps",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Expected Result",
+              "displayName": "Expected Result",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Test Data",
+              "displayName": "Test Data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Test Type",
+              "displayName": "Test Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Priority",
+              "displayName": "Priority",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Run Date",
+              "displayName": "Run Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Actual Result",
+              "displayName": "Actual Result",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Execution Status",
+              "displayName": "Execution Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        3184,
+        112
+      ],
+      "id": "080c61cd-d2f6-409d-8e85-731166bac962",
+      "name": "Load Excecution Tracker Tab",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "pC76BF7hWyRmoyMt",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all().map(item => ({\n  json: {\n    'Test Case ID':    item.json['Test Case ID'],\n    'Title':           item.json['Title'],\n    'Module':          item.json['Module'],\n    'Suite':           item.json['Suite'],\n    'Preconditions':   item.json['Preconditions'],\n    'Test Steps':      item.json['Test Steps'],\n    'Expected Result': item.json['Expected Result'],\n    'Test Data':       item.json['Test Data'],\n    'Test Type':       item.json['Test Type'],\n    'Priority':        item.json['Priority'],\n    'Status':          item.json['Status'],\n    'Run Date':        '',\n    'Actual Result':   '',\n    'Execution Status': 'Not Run'\n  }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3056,
+        112
+      ],
+      "id": "63ab75d0-f4b8-4938-b86e-00d9c6b290ae",
+      "name": "Map Execution Tracker Schema"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $('Create spreadsheet').first().json.spreadsheetId }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Test Cases",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Test Case ID",
+              "displayName": "Test Case ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Module",
+              "displayName": "Module",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Suite",
+              "displayName": "Suite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Preconditions",
+              "displayName": "Preconditions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Test Steps",
+              "displayName": "Test Steps",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Expected Result",
+              "displayName": "Expected Result",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Test Data",
+              "displayName": "Test Data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Test Type",
+              "displayName": "Test Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Priority",
+              "displayName": "Priority",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2928,
+        112
+      ],
+      "id": "bbd98026-3caa-4a20-918d-f2373911257c",
+      "name": "Load Test Cases Tab",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "pC76BF7hWyRmoyMt",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $('Parse Clean AI Output1').all();\n\nreturn items.map(i => ({\n  json: {\n    'Test Case ID':    i.json.id,\n    'Title':           i.json.title,\n    'Module':          i.json.module,\n    'Suite':           i.json.suite,\n    'Preconditions':   i.json.preconditions,\n    'Test Steps':      i.json.steps,\n    'Expected Result': i.json.expected_result,\n    'Test Data':       i.json.test_data,\n    'Test Type':       i.json.test_type,\n    'Priority':        i.json.priority,\n    'Status':          i.json.status\n  }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2800,
+        112
+      ],
+      "id": "6016e9e6-7a23-4a1d-a89f-03e6a43b8d9e",
+      "name": "Map Test Cases Schema"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        2432,
+        112
+      ],
+      "id": "6a223d84-9fd8-4c74-bf37-5b391dba5f7e",
+      "name": "Aggregate Consolidate Items"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "issueKey": "={{ $json['Jira Ticket ID'] }}",
+        "simplifyOutput": true,
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.jira",
+      "typeVersion": 1,
+      "position": [
+        1520,
+        32
+      ],
+      "id": "69ee5500-e042-4af2-b0c1-936300332077",
+      "name": "Extract Jira Ticket",
+      "credentials": {
+        "jiraSoftwareCloudApi": {
+          "id": "BYSfJpbfEBnvpDus",
+          "name": "Jira SW Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "={{ $('GitHub info').item.json['GitHub Repository URL'].split('/')[3] }}",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "mode": "name",
+          "value": "={{ $('GitHub info').item.json['GitHub Repository URL'].split('/')[4] }}"
+        },
+        "issueNumber": "={{ $json[\"Issue Number\"] }}"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        1648,
+        192
+      ],
+      "id": "61302b2e-ba99-4cd1-829f-227b79128d43",
+      "name": "Get an issue",
+      "webhookId": "62f26b48-a787-4da7-b706-6560121e64ad",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "icmHsh5VxN4jkDFW",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json['Ticket System'] }}",
+                    "rightValue": "Jira",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "a28e26e3-c760-493f-b884-b030c158939d"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "08af65be-60c4-4d34-9e47-ddac0a9dc9f0",
+                    "leftValue": "={{ $json['Ticket System'] }}",
+                    "rightValue": "Github Issue",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        1200,
+        112
+      ],
+      "id": "827817c5-81ff-48b8-802d-d91fed9b729b",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "formTitle": "Generate QA Test Cases",
+        "formDescription": "Enter a Jira ticket ID to automatically generate test cases and export to Google Sheets",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Ticket System",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Jira"
+                  },
+                  {
+                    "option": "Github Issue"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
+      "position": [
+        992,
+        112
+      ],
+      "id": "783a33ab-149a-4227-b85e-7d42b8faa69d",
+      "name": "Ingest User Input",
+      "webhookId": "daa64504-a10b-4951-99e4-d4490611e495"
+    },
+    {
+      "parameters": {
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "GitHub Repository URL"
+            },
+            {
+              "fieldLabel": "Issue Number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 2.5,
+      "position": [
+        1376,
+        192
+      ],
+      "id": "203f1a05-fd20-4c4a-a058-45d903e37981",
+      "name": "GitHub info",
+      "webhookId": "2c8c2e81-82f2-4673-8a8d-ac3b87cb6060"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash",
+        "options": {
+          "maxOutputTokens": 100000,
+          "temperature": 0.3
+        }
+      },
+      "id": "4a694f77-99b8-40a9-807a-7e43b6a5be3d",
+      "name": "Google Gemini1",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        1856,
+        240
+      ],
+      "credentials": {
+        "googlePalmApi": {
+          "id": "CTYjvgbLmrykv92Y",
+          "name": "Google Gemini(PaLM) Api account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const rawData = $input.first().json.output || $input.first().json.text || $input.first().json.message || $input.first().json;\n\nif (typeof rawData === 'object' && rawData.testCases && Array.isArray(rawData.testCases)) {\n  return rawData.testCases.map(tc => ({ json: tc }));\n}\n\nconst raw = typeof rawData === 'string' ? rawData : JSON.stringify(rawData);\n\nfunction sanitize(s) {\n  const map = {'\\n':'\\\\n', '\\r':'\\\\r', '\\t':'\\\\t'};\n  let out = '', inStr = false, esc = false;\n  for (const ch of s) {\n    if (esc) { out += ch; esc = false; continue; }\n    if (ch === '\\\\' && inStr) { out += ch; esc = true; continue; }\n    if (ch === '\"') { inStr = !inStr; out += ch; continue; }\n    out += (inStr && map[ch]) ? map[ch] : ch;\n  }\n  return out;\n}\n\nfunction extractArray(raw) {\n  let cleaned = raw.replace(/```json\\s*/g, '').replace(/```/g, '').trim();\n  const start = cleaned.indexOf('[');\n  if (start !== -1) {\n    let depth = 0;\n    for (let i = start; i < cleaned.length; i++) {\n      if (cleaned[i] === '[') depth++;\n      else if (cleaned[i] === ']') {\n        depth--;\n        if (depth === 0) {\n          const c = cleaned.slice(start, i + 1);\n          try { return JSON.parse(c); } catch(e) {}\n          try { return JSON.parse(sanitize(c)); } catch(e) { break; }\n        }\n      }\n    }\n  }\n  const matches = (cleaned.match(/\\[[\\s\\S]*\\]/g) || []).sort((a, b) => b.length - a.length);\n  for (const m of matches) {\n    try { return JSON.parse(m); } catch(e) {}\n    try { return JSON.parse(sanitize(m)); } catch(e) {}\n  }\n  throw new Error('Could not extract test cases. Raw: ' + raw.slice(0, 200));\n}\n\nconst testCases = extractArray(raw);\n\nconst clean = testCases.map(tc => {\n  const fixed = {};\n  for (const [k, v] of Object.entries(tc)) {\n    if (typeof v === 'string') {\n      fixed[k] = v\n        .replace(/\\[([^\\]]+)\\]\\([^)]+\\)/g, '$1')  // strip [text](url)\n        .replace(/\\[([^\\]]+)\\]\\([^)]+\\)/g, '$1');  // second pass for nested\n    } else if (typeof v === 'object' && v !== null) {\n      // Convert objects (like test_data) to a readable string for Google Sheets\n      fixed[k] = Object.entries(v).map(([key, val]) => `${key}: ${val}`).join(', ');\n    } else {\n      fixed[k] = v;\n    }\n  }\n  return fixed;\n});\n\nreturn clean.map(tc => ({ json: tc }));"
+      },
+      "id": "cbcdd683-b341-48bc-a769-333e389e3a28",
+      "name": "Parse Clean AI Output1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2224,
+        112
+      ],
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=TICKET ID: {{ $json.key || $json.number }}\nSUMMARY: {{ $json.summary || $json.title }}\nDESCRIPTION: {{ $json.description || $json.body || 'Not provided - infer from summary' }}\nPRIORITY: {{ $json.priority?.name || $json.labels?.[0]?.name || 'Medium' }}\nACCEPTANCE CRITERIA: {{ $json['Sub-tasks']?.[0]?.fields?.summary || $json.body || 'Infer from description' }}\n\nDEPTH RULES:\n- High: 20 test cases, extensive edge cases and boundary conditions\n- Medium: 15 test cases, standard coverage\n- Low: 10 test cases, happy path and key negatives\n- Unknown priority: default to Medium rules\n\nFEATURE TYPE — auto detect from summary and description:\n- UI feature: form validation, navigation, error messages, empty states\n- API feature: status codes, payloads, authentication, invalid inputs\n- Mobile feature: touch, orientation, offline mode, notifications\n- Accessibility: screen reader, keyboard nav, contrast, focus\n- Mixed: combine all relevant types\n\nMODULE — infer from summary if not explicitly stated.\nIf Acceptance Criteria is missing, infer from description \nand note assumptions in preconditions.\n\nReturn ONLY a raw JSON array. Nothing before. Nothing after.\nEach object must have exactly these fields:\nid, title, module, suite, preconditions, steps, \nexpected_result, test_data, test_type, priority, status",
+        "options": {
+          "systemMessage": "You are a senior QA engineer with expertise in manual and \nautomated testing. You write clear, structured test cases \nfor any type of software feature. Never use markdown links. \nWrite plain text only. Return only raw JSON with no text \nbefore or after the array."
+        }
+      },
+      "id": "0d66fcb8-2450-4b48-9982-0e88555bc79f",
+      "name": "AI Test Generation1",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        1840,
+        112
+      ],
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Jira Ticket ID"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 2.5,
+      "position": [
+        1376,
+        32
+      ],
+      "id": "0f674884-103b-4c53-ae33-37c143d65d59",
+      "name": "Jira info1",
+      "webhookId": "2c8c2e81-82f2-4673-8a8d-ac3b87cb6060"
+    },
+    {
+      "parameters": {
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Framework",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Selenium"
+                  },
+                  {
+                    "option": "Playwright"
+                  },
+                  {
+                    "option": "Cypress"
+                  },
+                  {}
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Website URL"
+            },
+            {
+              "fieldLabel": "App Type",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Web"
+                  },
+                  {
+                    "option": "Mobile"
+                  },
+                  {
+                    "option": "API"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Test URL - staging"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 2.5,
+      "position": [
+        3472,
+        112
+      ],
+      "id": "f608ace7-ff81-4e5d-a254-c7c2eb39df9d",
+      "name": "Inject Framework input",
+      "webhookId": "1d166603-1ffc-4699-b4b4-53bd108b0fd1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Framework: {{ $('Inject Framework input').item.json.Framework }}\nGenerate the test file now.\n\nYou are a senior QA automation engineer. Generate a complete test file.\n\nFRAMEWORK: {{$('Inject Framework input').item.json['Framework']}}\nWEBSITE URL: {{$('Inject Framework input').item.json['Website URL']}}\nAPP TYPE: {{$('Inject Framework input').item.json['App Type']}}\nTEST ENVIRONMENT: {{$('Inject Framework input').item.json['Test URL - staging']}}\n\nTEST CASES TO IMPLEMENT:\n{{JSON.stringify($('Aggregate').item.json.data)}}\n\nUse the Website URL and Test Environment URL to write real, working test scripts.\nReference actual routes, real button labels, and real field names from the app.\nFollow all framework best practices as instructed.\nOutput raw .spec file only — no markdown, no explanations.",
+        "options": {
+          "systemMessage": "\n\nYou are a senior QA automation engineer. You generate clean, minimal test files following official best practices for the selected framework.\n\nRULES (never break these):\n- One test() function block per test case row\n- No describe() wrappers — all blocks at root level\n- No comments inside blocks except // TODO: <step> if a step is unclear\n- No blank lines inside a block\n- One blank line between blocks\n- No explanations, no markdown, no code fences\n- Raw output only (.spec.ts for Playwright, .spec.js for Cypress/Selenium)\n\n═══════════════════════════════════════\nFRAMEWORK: PLAYWRIGHT (TypeScript)\n═══════════════════════════════════════\nFILE EXTENSION: .spec.ts\n\nIMPORTS:\nimport { test, expect, Page } from '@playwright/test';\n\nBEST PRACTICES:\n- Use page.getByRole() over CSS selectors wherever possible\n- Use page.getByLabel() for form inputs\n- Use page.getByText() for text content\n- Use page.getByTestId() for data-testid attributes\n- Use page.getByPlaceholder() for placeholder text\n- Never use page.locator('css selector') unless no semantic locator exists\n- Never use page.waitForTimeout() — use Playwright auto-waiting\n- Use await expect(locator).toBeVisible() not toBeTruthy()\n- Use await expect(locator).toHaveText() for text assertions\n- Use await expect(page).toHaveURL() for URL assertions\n- Use await expect(locator).toBeEnabled() before interactions\n- Use page.fill() for inputs, page.click() for buttons\n- No try/catch — Playwright handles errors natively\n\nTIMEOUTS:\n- test.setTimeout(30000) as first line inside every test block\n\nOUTPUT STRUCTURE:\n// @generated\n// Framework: Playwright (TypeScript)\n// Generated: <date> | Tests: <count>\n// CI: GitHub Actions | Jenkins | CircleCI | GitLab CI\n// Run: npx playwright test\n\nimport { test, expect, Page } from '@playwright/test';\n\n// <Test Case ID> - <Title>\ntest('<ID> - <Title>', async ({ page }: { page: Page }) => {\ntest.setTimeout(30000);\n<step code using semantic locators>\n<playwright assertion>\n});\n\n═══════════════════════════════════════\nFRAMEWORK: CYPRESS (JavaScript)\n═══════════════════════════════════════\nFILE EXTENSION: .spec.js\n\nIMPORTS:\n// No imports needed — Cypress globals are available automatically\n\nBEST PRACTICES:\n- Use cy.get() with data-cy attributes as first preference: cy.get('[data-cy=\"element\"]')\n- Use cy.contains() for text-based selection\n- Use cy.findByRole() if @testing-library/cypress is available\n- Never use cy.wait(ms) — use cy.intercept() to wait for network requests\n- Use cy.intercept() to stub and spy on API calls\n- Use cy.fixture() for test data instead of hardcoding\n- Use .should() for assertions not .then() chains\n- Use cy.url().should('include', '/path') for URL assertions\n- Use cy.get().should('be.visible') for visibility\n- Use cy.get().should('have.text', 'value') for text assertions\n- Use cy.request() for API-level setup/teardown not UI flows\n- Chain commands — never store Cypress subjects in variables\n- Use beforeEach() only at file level if needed for login/setup\n\nTIMEOUTS:\n- Add { timeout: 10000 } to cy.get() calls on dynamic elements\n\nOUTPUT STRUCTURE:\n// @generated\n// Framework: Cypress (JavaScript)\n// Generated: <date> | Tests: <count>\n// CI: GitHub Actions | Jenkins | CircleCI | GitLab CI\n// Run: npx cypress run\n\n// <Test Case ID> - <Title>\nit('<ID> - <Title>', () => {\ncy.visit(Cypress.env('BASE_URL') || 'http://localhost:3000');\n<step code using data-cy selectors>\n<cypress assertion>\n});\n\n═══════════════════════════════════════\nFRAMEWORK: SELENIUM (JavaScript)\n═══════════════════════════════════════\nFILE EXTENSION: .spec.js\n\nIMPORTS:\nconst { Builder, By, until, Key } = require('selenium-webdriver');\nconst chrome = require('selenium-webdriver/chrome');\n\nBEST PRACTICES:\n- Always initialize driver inside each test, quit in finally block\n- Use driver.wait(until.elementLocated()) never implicit waits alone\n- Use By.css() or By.xpath() — prefer CSS over XPath\n- Use By.id() and By.name() for form elements\n- Always set implicit wait: driver.manage().setTimeouts({ implicit: 5000 })\n- Use driver.wait(until.elementIsVisible(el)) before interactions\n- Use driver.wait(until.elementIsEnabled(el)) before clicking\n- Use driver.wait(until.urlContains('/path')) for navigation assertions\n- Wrap every test in try/catch/finally — always quit driver in finally\n- Use driver.executeScript() only as last resort\n- Use driver.findElement() not findElements() unless checking count\n\nTIMEOUTS:\n- driver.manage().setTimeouts({ implicit: 5000, pageLoad: 30000 })\n\nOUTPUT STRUCTURE:\n// @generated\n// Framework: Selenium (JavaScript)\n// Generated: <date> | Tests: <count>\n// CI: GitHub Actions | Jenkins | CircleCI | GitLab CI\n// Run: npx jest\n\nconst { Builder, By, until } = require('selenium-webdriver');\nconst chrome = require('selenium-webdriver/chrome');\n\n// <Test Case ID> - <Title>\ntest('<ID> - <Title>', async () => {\njest.setTimeout(30000);\nlet driver = await new Builder().forBrowser('chrome').build();\ntry {\nawait driver.manage().setTimeouts({ implicit: 5000, pageLoad: 30000 });\n<step code>\n<assertion>\n} finally {\nawait driver.quit();\n}\n});\n\n═══════════════════════════════════════\nENVIRONMENT VARIABLES (ALL FRAMEWORKS)\n═══════════════════════════════════════\n- No hardcoded URLs → process.env.BASE_URL || 'http://localhost:3000'\n- No hardcoded credentials → process.env.TEST_USER, process.env.TEST_PASS\n- Never use process.exit() inside tests\n- Let the framework handle pass/fail exit codes naturally"
+        }
+      },
+      "id": "40646fb4-ec9d-4ebe-a34b-68bc654cc27a",
+      "name": "AI Test-code Generation",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        3648,
+        112
+      ],
+      "executeOnce": true,
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "model": "google/gemini-2.0-flash-lite-001",
+        "options": {
+          "maxTokens": 32768,
+          "temperature": 0
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        3664,
+        240
+      ],
+      "id": "6107dcd3-5f5b-488a-8ae6-6f61b69337a4",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "fRhT1qKksBeOwTDm",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "db4e62ef-d921-48c5-afb9-5444f1c112a2",
+              "leftValue": "={{$('HTTP Request1').item.json.sha}}",
+              "rightValue": "TRUE",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        4096,
+        112
+      ],
+      "id": "514bef4e-5374-462e-a719-9da37b32f3ae",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "edit",
+        "owner": {
+          "__rl": true,
+          "value": "={{ $('GitHub info').item.json['GitHub Repository URL'].split('/')[3] || $('GitHub info1').item.json['GitHub Repository URL'].split('/')[3] }}",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "={{ $('GitHub info').item.json['GitHub Repository URL'].split('/')[4] || $('GitHub info1').item.json['GitHub Repository URL'].split('/')[4] }}",
+          "mode": "name"
+        },
+        "filePath": "=tests/generated/tc-{{$('Extract Jira Ticket').isExecuted \n  ? $('Extract Jira Ticket').item.json.key \n  : ('GH-' + ($('GitHub info1').isExecuted \n      ? $('GitHub info1').item.json['Issue Number'] \n      : $('GitHub info').item.json['Issue Number']))\n}}-{{$('Inject Framework input').item.json['Framework']}}.spec.js",
+        "fileContent": "={{ $('AI Test-code Generation').item.json.output }}",
+        "commitMessage": "=feat: Added AI generated test script for {{$('Extract Jira Ticket').isExecuted \n  ? $('Extract Jira Ticket').item.json.key \n  : ('GH-' + ($('GitHub info1').isExecuted \n      ? $('GitHub info1').item.json['Issue Number'] \n      : $('GitHub info').item.json['Issue Number']))\n}}-{{$('Inject Framework input').item.json['Framework']}}"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        4272,
+        32
+      ],
+      "id": "81ece575-d22d-4b0f-929c-6b527b37d49c",
+      "name": "Edit a file",
+      "webhookId": "5fe909bf-c89b-4d97-99d0-2152f1b81390",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "icmHsh5VxN4jkDFW",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "owner": {
+          "__rl": true,
+          "value": "={{ $('GitHub info').item.json['GitHub Repository URL'].split('/')[3] || $('GitHub info1').item.json['GitHub Repository URL'].split('/')[3] }}",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "={{ $('GitHub info').item.json['GitHub Repository URL'].split('/')[4] || $('GitHub info1').item.json['GitHub Repository URL'].split('/')[4] }}",
+          "mode": "name"
+        },
+        "filePath": "=tests/generated/tc-{{$('Jira info1').isExecuted \n  ? $('Extract Jira Ticket').item.json.key \n  : ('GH-' + ($('GitHub info1').isExecuted \n      ? $('GitHub info1').item.json['Issue Number'] \n      : $('GitHub info').item.json['Issue Number']))\n}}-{{$('Inject Framework input').item.json['Framework']}}.spec.js",
+        "fileContent": "={{ $('AI Test-code Generation').item.json.output }}",
+        "commitMessage": "=Added AI generated test script for {{$('Extract Jira Ticket').isExecuted \n  ? $('Extract Jira Ticket').item.json.key \n  : ('GH-' + ($('GitHub info1').isExecuted \n      ? $('GitHub info1').item.json['Issue Number'] \n      : $('GitHub info').item.json['Issue Number']))\n}}-{{$('Inject Framework input').item.json['Framework']}}"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        4288,
+        176
+      ],
+      "id": "d264f166-e753-43be-ac24-129466c79c3a",
+      "name": "Create a file",
+      "webhookId": "d3018d68-aff7-443c-a199-e0ad20f99f19",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "icmHsh5VxN4jkDFW",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        3344,
+        112
+      ],
+      "id": "e31a9801-9166-4ef5-9797-86466a146a15",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.github.com/repos/{{$('GitHub info').item.json['GitHub Repository URL'].split('/')[3]}}/{{$('GitHub info').item.json['GitHub Repository URL'].split('/')[4]}}/contents/tests/generated/tc-GH-{{$('GitHub info').item.json['Issue Number']}}-{{$('Inject Framework input').item.json['Framework']}}.spec.js",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        3936,
+        112
+      ],
+      "id": "9c402813-7777-4ad4-9d15-03cf75a87809",
+      "name": "HTTP Request1",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "MrFJGolJ3JcPiNHo",
+          "name": "Bearer Auth account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "GitHub Repository URL"
+            },
+            {
+              "fieldLabel": "Issue Number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 2.5,
+      "position": [
+        1648,
+        32
+      ],
+      "id": "2a463d94-a773-4fe8-b1ae-8052cb0321ff",
+      "name": "GitHub info1",
+      "webhookId": "2c8c2e81-82f2-4673-8a8d-ac3b87cb6060"
+    },
+    {
+      "parameters": {
+        "content": "## Script Generation",
+        "height": 376,
+        "width": 912,
+        "color": "#FFF9DB"
+      },
+      "id": "4a66c009-20fa-4752-9fcd-2c004e590133",
+      "name": "Sticky Note 9a6900ac5",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        3584,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## QA Management suite ",
+        "height": 504,
+        "width": 3604,
+        "color": 2
+      },
+      "id": "d443c135-c92d-492b-b9f9-173299b36475",
+      "name": "Sticky Note 9a6900ac",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        912,
+        -64
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Create spreadsheet": {
+      "main": [
+        [
+          {
+            "node": "Map Test Cases Schema",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load Excecution Tracker Tab": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map Execution Tracker Schema": {
+      "main": [
+        [
+          {
+            "node": "Load Excecution Tracker Tab",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load Test Cases Tab": {
+      "main": [
+        [
+          {
+            "node": "Map Execution Tracker Schema",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map Test Cases Schema": {
+      "main": [
+        [
+          {
+            "node": "Load Test Cases Tab",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate Consolidate Items": {
+      "main": [
+        [
+          {
+            "node": "Create spreadsheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Jira Ticket": {
+      "main": [
+        [
+          {
+            "node": "GitHub info1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get an issue": {
+      "main": [
+        [
+          {
+            "node": "AI Test Generation1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Jira info1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "GitHub info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ingest User Input": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub info": {
+      "main": [
+        [
+          {
+            "node": "Get an issue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Test Generation1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Clean AI Output1": {
+      "main": [
+        [
+          {
+            "node": "Aggregate Consolidate Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Test Generation1": {
+      "main": [
+        [
+          {
+            "node": "Parse Clean AI Output1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Jira info1": {
+      "main": [
+        [
+          {
+            "node": "Extract Jira Ticket",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Inject Framework input": {
+      "main": [
+        [
+          {
+            "node": "AI Test-code Generation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Test-code Generation": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Test-code Generation",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit a file",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create a file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Inject Framework input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub info1": {
+      "main": [
+        [
+          {
+            "node": "AI Test Generation1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "b4bb373d-ecfb-4786-a92b-5a20d45a1530",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b9b15d522f8cea650bef8a4731a1f1f211e2f3f9224638b21cd3ebd266db278f"
+  },
+  "id": "2p9JD50pyQ0sNLFs",
+  "tags": []
+}
